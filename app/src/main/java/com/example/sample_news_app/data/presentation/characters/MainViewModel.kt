@@ -1,10 +1,10 @@
-package com.example.sample_news_app.presentation
+package com.example.sample_news_app.data.presentation.characters
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sample_news_app.data.SouthParkAPI
 import com.example.sample_news_app.presentation.model.NewCharacter
-import com.example.sample_news_app.presentation.model.MainState
+import com.example.sample_news_app.data.presentation.characters.model.MainState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
