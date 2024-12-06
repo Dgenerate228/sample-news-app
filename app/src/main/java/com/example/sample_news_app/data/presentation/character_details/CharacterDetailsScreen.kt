@@ -34,7 +34,6 @@ internal fun CharacterDetailsScreen(
     viewModel: CharacterDetailsViewModel,
     navigationBack: @Composable () -> Unit,
 ) {
-
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
 
     ScreenContent(
