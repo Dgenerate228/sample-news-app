@@ -5,9 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.sample_news_app.data.presentation.character_details.CharacterDetailsScreen
-import com.example.sample_news_app.data.presentation.character_details.CharacterDetailsViewModel
-import com.example.sample_news_app.data.presentation.characters.MainScreen
+import com.example.sample_news_app.presentation.character_details.CharacterDetailsScreen
+import com.example.sample_news_app.presentation.character_details.CharacterDetailsViewModel
+import com.example.sample_news_app.presentation.characters.MainScreen
 
 
 @Composable
@@ -25,7 +25,7 @@ internal fun SPNavGraph(
     }
     composable(route = SPScreen.CharacterDetails.route) {
         CharacterDetailsScreen(
-            navigationBack = { MainScreen {} },
+            navigationBack = { navController.popBackStack() },
             viewModel = CharacterDetailsViewModel()
         )
     }

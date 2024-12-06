@@ -1,6 +1,6 @@
-package com.example.sample_news_app.data.presentation.character_details.model
+package com.example.sample_news_app.presentation.character_details.model
 
-import com.example.sample_news_app.presentation.model.NewCharacter
+import com.example.sample_news_app.presentation.characters.model.NewCharacter
 
     sealed interface CharacterDetailsState {
         data class Normal(val new: NewCharacter) : CharacterDetailsState

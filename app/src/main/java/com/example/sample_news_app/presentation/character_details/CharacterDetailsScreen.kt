@@ -1,4 +1,4 @@
-package com.example.sample_news_app.data.presentation.character_details
+package com.example.sample_news_app.presentation.character_details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,14 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.sample_news_app.R
-import com.example.sample_news_app.data.presentation.character_details.model.CharacterDetailsState
-import com.example.sample_news_app.presentation.model.NewCharacter
+import com.example.sample_news_app.presentation.character_details.model.CharacterDetailsState
+import com.example.sample_news_app.presentation.characters.model.NewCharacter
 import com.example.sample_news_app.ui.theme.SampleSPappTheme
 
 @Composable
 internal fun CharacterDetailsScreen(
     viewModel: CharacterDetailsViewModel,
-    navigationBack: @Composable () -> Unit,
+    navigationBack: () -> Unit,
 ) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
 

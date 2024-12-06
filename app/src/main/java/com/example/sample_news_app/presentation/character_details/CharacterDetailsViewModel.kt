@@ -1,10 +1,7 @@
-package com.example.sample_news_app.data.presentation.character_details
+package com.example.sample_news_app.presentation.character_details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.sample_news_app.data.presentation.character_details.model.CharacterDetailsState
-import com.example.sample_news_app.presentation.model.NewCharacter
+import com.example.sample_news_app.presentation.character_details.model.CharacterDetailsState
 import kotlinx.coroutines.flow.MutableStateFlow
 
 

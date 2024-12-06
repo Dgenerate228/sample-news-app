@@ -1,4 +1,4 @@
-package com.example.sample_news_app.presentation.model
+package com.example.sample_news_app.presentation.characters.model
 
 data class NewCharacter(
     val id: String,

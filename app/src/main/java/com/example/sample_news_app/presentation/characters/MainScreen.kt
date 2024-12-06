@@ -1,4 +1,4 @@
-package com.example.sample_news_app.data.presentation.characters
+package com.example.sample_news_app.presentation.characters
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -32,15 +32,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sample_news_app.R
-import com.example.sample_news_app.data.presentation.characters.model.MainState
-import com.example.sample_news_app.presentation.model.NewCharacter as NewList
+import com.example.sample_news_app.presentation.characters.model.MainState
+import com.example.sample_news_app.presentation.characters.model.NewCharacter as NewList
 import com.example.sample_news_app.ui.theme.SampleSPappTheme
 
 @Composable
 internal fun MainScreen(
     viewModel: MainViewModel = viewModel(),
     openCharacterDetails: (id: String) -> Unit,
-
     ) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     ScreenContent(

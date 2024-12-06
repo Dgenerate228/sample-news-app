@@ -1,6 +1,4 @@
-package com.example.sample_news_app.data.presentation.characters.model
-
-import com.example.sample_news_app.presentation.model.NewCharacter
+package com.example.sample_news_app.presentation.characters.model
 
 sealed interface MainState {
     data class Normal(val characters: List<NewCharacter>) : MainState
