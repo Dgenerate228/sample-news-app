@@ -76,7 +76,7 @@ private fun ScreenContent(
                 .fillMaxSize()
         ) {
             when (screenState) {
-                is CharacterDetailsState.Normal -> CharacterDetailsState.Normal(new = screenState.new)
+                is CharacterDetailsState.Normal -> Normal(screenState.new)
                 CharacterDetailsState.Error -> Error()
                 CharacterDetailsState.Empty -> Unit
             }
