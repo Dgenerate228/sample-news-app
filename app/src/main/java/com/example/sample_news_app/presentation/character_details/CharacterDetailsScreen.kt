@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.sample_news_app.R
 import com.example.sample_news_app.presentation.character_details.model.CharacterDetailsState
+import com.example.sample_news_app.presentation.character_details.model.DetailCharacterList
 import com.example.sample_news_app.presentation.characters.model.NewCharacter
 import com.example.sample_news_app.ui.theme.SampleSPappTheme
 
@@ -85,7 +86,7 @@ private fun ScreenContent(
 )
 
 @Composable
-private fun Normal(new: NewCharacter) = Column(
+private fun Normal(new: DetailCharacterList) = Column(
     modifier = Modifier
         .fillMaxSize()
         .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -133,7 +134,7 @@ private fun Error() = Box(
 private fun PreviewCharacterDetailsScreenNormal() = SampleSPappTheme {
     ScreenContent(
         screenState = CharacterDetailsState.Normal(
-            new = NewCharacter(
+            new = DetailCharacterList(
                     id = "",
                     name = "Character name",
                     sex = "Character sex",

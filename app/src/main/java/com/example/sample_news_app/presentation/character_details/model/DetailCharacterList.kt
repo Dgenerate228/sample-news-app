@@ -1,4 +1,4 @@
-package com.example.sample_news_app.domain.model
+package com.example.sample_news_app.presentation.character_details.model
 
 data class DetailCharacterList (
         val id: String,
