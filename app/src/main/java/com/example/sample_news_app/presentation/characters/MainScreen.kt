@@ -1,6 +1,5 @@
 package com.example.sample_news_app.presentation.characters
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,11 +17,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -33,23 +32,21 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sample_news_app.R
 import com.example.sample_news_app.presentation.characters.model.MainState
-import com.example.sample_news_app.presentation.characters.model.NewCharacter as NewList
 import com.example.sample_news_app.ui.theme.SampleSPappTheme
+import com.example.sample_news_app.presentation.characters.model.NewCharacter as NewList
 
 @Composable
 internal fun MainScreen(
     viewModel: MainViewModel = viewModel(),
     openCharacterDetails: (id: String) -> Unit,
-    ) {
+) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     ScreenContent(
         screenState = screenState,
         openCharacterDetails = openCharacterDetails
     )
-
 }
 
-@SuppressLint("ResourceAsColor")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ScreenContent(
@@ -67,11 +64,7 @@ private fun ScreenContent(
                     containerColor = colorResource(R.color.orange),
                     titleContentColor = colorResource(R.color.brown)
                 ),
-                title = {
-                    Text(
-                        text = "Select character"
-                    )
-                }
+                title = { Text(text = "Select character") }
             )
         },
         content = { innerPadding ->
@@ -139,7 +132,7 @@ private fun New(
     name: String,
     sex: String,
     onCharacterClick: (id: String) -> Unit
-    ) = Card(
+) = Card(
     modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 16.dp, vertical = 8.dp)

@@ -6,11 +6,13 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+private const val CHARACTER_ID_KEY = "id"
+
 interface SouthParkAPI {
 
     @GET("https://spapi.dev/api/characters")
     suspend fun getSP(): Response<SouthPark>
 
-    @GET("https://spapi.dev/api/characters/{id}")
-    suspend fun getCharacter(@Path("id")id: String): Response<SouthParkCharacter>
+    @GET("https://spapi.dev/api/characters/{$CHARACTER_ID_KEY}")
+    suspend fun getCharacter(@Path(CHARACTER_ID_KEY)id: String): Response<SouthParkCharacter>
 }

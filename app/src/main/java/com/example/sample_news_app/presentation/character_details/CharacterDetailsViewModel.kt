@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sample_news_app.data.SouthParkAPI
 import com.example.sample_news_app.presentation.character_details.model.CharacterDetailsState
-import com.example.sample_news_app.presentation.character_details.model.DetailCharacterList
+import com.example.sample_news_app.presentation.character_details.model.CharacterDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -12,6 +12,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+private const val UNKNOWN_MESSAGE = "Unknown"
 
 class CharacterDetailsViewModel : ViewModel() {
 
@@ -33,20 +34,20 @@ class CharacterDetailsViewModel : ViewModel() {
         )
     }
 
-    private suspend fun getSP(characterId: String): DetailCharacterList? =
+    private suspend fun getSP(characterId: String): CharacterDetails? =
         withContext(Dispatchers.IO) {
             try {
                 val result = spAPI.getCharacter(characterId)
                 val body = result.body()
                 if (result.isSuccessful && body != null) {
                     val character = body.data
-                    DetailCharacterList(
+                    CharacterDetails(
                         id = character.id.toString(),
                         name = character.name,
                         sex = character.sex,
-                        hairColor = character.hairColor ?: "Unknown",
-                        occupation = character.occupation ?: "Unknown",
-                        religion = character.religion ?: "Unknown"
+                        hairColor = character.hairColor ?: UNKNOWN_MESSAGE,
+                        occupation = character.occupation ?: UNKNOWN_MESSAGE,
+                        religion = character.religion ?: UNKNOWN_MESSAGE
                     )
                 } else {
                     null
