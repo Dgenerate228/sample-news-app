@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +28,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.sample_news_app.R
 import com.example.sample_news_app.presentation.character_details.model.CharacterDetailsState
 import com.example.sample_news_app.presentation.character_details.model.DetailCharacterList
-import com.example.sample_news_app.presentation.characters.model.NewCharacter
 import com.example.sample_news_app.ui.theme.SampleSPappTheme
 
 @Composable
@@ -53,8 +53,8 @@ private fun ScreenContent(
     topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary,
+                containerColor = colorResource(R.color.orange),
+                titleContentColor = colorResource(R.color.brown)
             ),
             title = {
                 Text(
@@ -77,7 +77,7 @@ private fun ScreenContent(
                 .fillMaxSize()
         ) {
             when (screenState) {
-                is CharacterDetailsState.Normal -> Normal(screenState.new)
+                is CharacterDetailsState.Normal -> Normal(screenState.character)
                 CharacterDetailsState.Error -> Error()
                 CharacterDetailsState.Empty -> Unit
             }
@@ -92,27 +92,27 @@ private fun Normal(new: DetailCharacterList) = Column(
         .padding(horizontal = 16.dp, vertical = 8.dp)
 ) {
     Text(
-        text = new.name,
+        text = stringResource(R.string.name_ru) + new.name,
         style = MaterialTheme.typography.titleMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = new.sex,
+        text = stringResource(R.string.sex_ru) + new.sex,
         style = MaterialTheme.typography.bodyLarge,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = new.religion.toString(),
+        text = stringResource(R.string.religion_ru) + new.religion.toString(),
         style = MaterialTheme.typography.bodyMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = new.hairColor.toString(),
+        text = stringResource(R.string.hair_color_ru) + new.hairColor.toString(),
         style = MaterialTheme.typography.bodyMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = new.occupation.toString(),
+        text = stringResource(R.string.occupation_ru) + new.occupation.toString(),
         style = MaterialTheme.typography.bodyMedium,
     )
 }
@@ -134,21 +134,21 @@ private fun Error() = Box(
 private fun PreviewCharacterDetailsScreenNormal() = SampleSPappTheme {
     ScreenContent(
         screenState = CharacterDetailsState.Normal(
-            new = DetailCharacterList(
-                    id = "",
-                    name = "Character name",
-                    sex = "Character sex",
-                    hairColor = "Character hair color",
-                    occupation = "Character occupation",
-                    religion = "Character religion"
-                )
-            ), navigationBack = {}
-        )
+            character = DetailCharacterList(
+                id =   stringResource(R.string.empty),
+                name = stringResource(R.string.name),
+                sex =  stringResource(R.string.sex),
+                hairColor =  stringResource(R.string.hair_color),
+                occupation = stringResource(R.string.occupation),
+                religion = stringResource(R.string.religion),
+            )
+        ), navigationBack = {}
+    )
 }
 
 @Preview
 @Composable
-private fun PreviewNewDetailsScreenError() = SampleSPappTheme() {
+private fun PreviewNewDetailsScreenError() = SampleSPappTheme {
     ScreenContent(
         screenState = CharacterDetailsState.Error,
         navigationBack = {}
