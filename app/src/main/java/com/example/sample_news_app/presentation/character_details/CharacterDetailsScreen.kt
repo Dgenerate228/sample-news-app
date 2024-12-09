@@ -92,27 +92,27 @@ private fun Normal(new: DetailCharacterList) = Column(
         .padding(horizontal = 16.dp, vertical = 8.dp)
 ) {
     Text(
-        text = stringResource(R.string.name_ru) + new.name,
+        text = stringResource(R.string.name_ru) + " " + new.name,
         style = MaterialTheme.typography.titleMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = stringResource(R.string.sex_ru) + new.sex,
+        text = stringResource(R.string.sex_ru) + " " + new.sex,
         style = MaterialTheme.typography.bodyLarge,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = stringResource(R.string.religion_ru) + new.religion.toString(),
+        text = stringResource(R.string.religion_ru) + " " + new.religion.toString(),
         style = MaterialTheme.typography.bodyMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = stringResource(R.string.hair_color_ru) + new.hairColor.toString(),
+        text = stringResource(R.string.hair_color_ru) + " " + new.hairColor.toString(),
         style = MaterialTheme.typography.bodyMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = stringResource(R.string.occupation_ru) + new.occupation.toString(),
+        text = stringResource(R.string.occupation_ru) + " " + new.occupation.toString(),
         style = MaterialTheme.typography.bodyMedium,
     )
 }
@@ -135,10 +135,10 @@ private fun PreviewCharacterDetailsScreenNormal() = SampleSPappTheme {
     ScreenContent(
         screenState = CharacterDetailsState.Normal(
             character = DetailCharacterList(
-                id =   stringResource(R.string.empty),
+                id = stringResource(R.string.empty),
                 name = stringResource(R.string.name),
-                sex =  stringResource(R.string.sex),
-                hairColor =  stringResource(R.string.hair_color),
+                sex = stringResource(R.string.sex),
+                hairColor = stringResource(R.string.hair_color),
                 occupation = stringResource(R.string.occupation),
                 religion = stringResource(R.string.religion),
             )

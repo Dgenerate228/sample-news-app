@@ -187,7 +187,7 @@ private fun PreviewMainScreenNormal() = SampleSPappTheme {
 
 @Preview
 @Composable
-private fun PreviewMainScreenLoading() = SampleSPappTheme() {
+private fun PreviewMainScreenLoading() = SampleSPappTheme {
     ScreenContent(
         screenState = MainState.Loading,
         openCharacterDetails = {})

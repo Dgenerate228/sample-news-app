@@ -14,17 +14,17 @@ import com.example.sample_news_app.presentation.characters.MainScreen
 fun SPNavGraph() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "character_list") {
-        composable("character_list") {
+    NavHost(navController = navController, startDestination = "CHARACTER_LIST") {
+        composable("CHARACTER_LIST") {
             MainScreen(
                 viewModel = viewModel(),
                 openCharacterDetails = { characterId ->
-                    navController.navigate("character_details/$characterId")
+                    navController.navigate("CHARACTER_DETAILS/$characterId")
                 }
             )
         }
-        composable("character_details/{characterId}") { backStackEntry ->
-            val characterId = backStackEntry.arguments?.getString("characterId")
+        composable("CHARACTER_DETAILS/{CHARACTER_ID}") { backStackEntry ->
+            val characterId = backStackEntry.arguments?.getString("CHARACTER_ID")
             if (characterId != null) {
                 val viewModel = viewModel<CharacterDetailsViewModel>()
                 viewModel.loadData(characterId)
