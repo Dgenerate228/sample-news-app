@@ -1,7 +1,7 @@
-package com.example.sample_news_app.presentation
+package com.example.sample_news_app.presentation.characters
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,36 +17,46 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sample_news_app.R
-import com.example.sample_news_app.presentation.model.MainState
-import com.example.sample_news_app.presentation.model.New as NewList
-import com.example.sample_news_app.ui.theme.SamplenewsappTheme
+import com.example.sample_news_app.presentation.characters.model.MainState
+import com.example.sample_news_app.ui.theme.SampleSPappTheme
+import com.example.sample_news_app.presentation.characters.model.NewCharacter as NewList
 
 @Composable
-internal fun MainScreen(viewModel: MainViewModel = viewModel()) {
+internal fun MainScreen(
+    viewModel: MainViewModel = viewModel(),
+    openCharacterDetails: (id: String) -> Unit,
+) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
-    ScreenContent(screenState = screenState)
-
+    ScreenContent(
+        screenState = screenState,
+        openCharacterDetails = openCharacterDetails
+    )
 }
 
-@SuppressLint("ResourceAsColor")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ScreenContent(screenState: MainState) {
+private fun ScreenContent(
+    screenState: MainState,
+    openCharacterDetails: (id: String) -> Unit,
+) {
     Scaffold(
-        modifier = Modifier.fillMaxSize().background(colorResource(R.color.brown)),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(R.color.brown)),
 
         topBar = {
             TopAppBar(
@@ -54,19 +64,21 @@ private fun ScreenContent(screenState: MainState) {
                     containerColor = colorResource(R.color.orange),
                     titleContentColor = colorResource(R.color.brown)
                 ),
-                title = {
-                    Text(
-                        text = "Select character"
-                    )
-                }
+                title = { Text(text = "Select character") }
             )
         },
         content = { innerPadding ->
-            Box(modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+            ) {
                 when (screenState) {
-                    is MainState.Normal -> Normal(screenState.characters)
+                    is MainState.Normal -> Normal(
+                        spApi = screenState.characters,
+                        openCharacterDetails = openCharacterDetails
+                    )
+
                     MainState.Loading -> Loading()
                     MainState.Error -> Error()
                 }
@@ -76,16 +88,20 @@ private fun ScreenContent(screenState: MainState) {
 }
 
 @Composable
-private fun Normal(spApi: List<NewList>) = Column(
+private fun Normal(
+    spApi: List<NewList>,
+    openCharacterDetails: (id: String) -> Unit,
+) = Column(
     modifier = Modifier
         .fillMaxSize()
         .verticalScroll(rememberScrollState())
 ) {
     spApi.forEach {
         New(
+            id = it.id,
             name = it.name,
-            sex = it.sex
-
+            sex = it.sex,
+            onCharacterClick = openCharacterDetails
         )
     }
 }
@@ -104,19 +120,23 @@ private fun Error() = Box(
     contentAlignment = Alignment.Center,
 ) {
     Text(
-        text = "Unknown Error",
+        text = stringResource(R.string.error),
         style = MaterialTheme.typography.titleLarge,
         color = MaterialTheme.colorScheme.error,
     )
 }
 
 @Composable
-private fun New(name: String,
-                sex: String,
+private fun New(
+    id: String,
+    name: String,
+    sex: String,
+    onCharacterClick: (id: String) -> Unit
 ) = Card(
     modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp, vertical = 8.dp),
+        .padding(horizontal = 16.dp, vertical = 8.dp)
+        .clickable { onCharacterClick(id) },
     content = {
         Column(
             modifier = Modifier
@@ -141,27 +161,36 @@ private fun New(name: String,
 
 @Preview
 @Composable
-private fun PreviewMainScreenNormal() = SamplenewsappTheme {
+private fun PreviewMainScreenNormal() = SampleSPappTheme {
     ScreenContent(
         screenState = MainState.Normal(
             characters = listOf(
                 NewList(
+                    id = "",
                     name = "Character name",
-                    sex = "Character sex"
+                    sex = "Character sex",
+                    hairColor = "",
+                    occupation = "",
+                    religion = ""
                 ),
             )
-        )
+        ), openCharacterDetails = {}
     )
 }
 
 @Preview
 @Composable
-private fun PreviewMainScreenLoading() = SamplenewsappTheme() {
-    ScreenContent(screenState = MainState.Loading)
+private fun PreviewMainScreenLoading() = SampleSPappTheme {
+    ScreenContent(
+        screenState = MainState.Loading,
+        openCharacterDetails = {})
+
 }
 
 @Preview
 @Composable
-private fun PreviewMainScreenError() = SamplenewsappTheme {
-    ScreenContent(screenState = MainState.Error)
+private fun PreviewMainScreenError() = SampleSPappTheme {
+    ScreenContent(
+        screenState = MainState.Error,
+        openCharacterDetails = {})
 }

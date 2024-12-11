@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">sample-news-app</string>
+    <string name="error">Unknown Error</string>
+    <string name="top_bar_details">Подробности о персонаже</string>
+    <string name="empty"> </string>
+    <string name="unknown">Unknown</string>
+    <string name="name">Character name</string>
+    <string name="sex">Character sex</string>
+    <string name="hair_color">Character hair color</string>
+    <string name="occupation">Character occupation</string>
+    <string name="religion">Character religion</string>
+
+    <string name="name_ru">Имя: </string>
+    <string name="sex_ru">Пол: </string>
+    <string name="hair_color_ru">Цвет волос: </string>
+    <string name="occupation_ru">Род занятий: </string>
+    <string name="religion_ru">Религия: </string>
 </resources>
