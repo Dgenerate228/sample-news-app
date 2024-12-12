@@ -1,7 +1,7 @@
 package com.example.sample_news_app.data.mapper
 
 import com.example.sample_news_app.data.model.SouthPark
-import com.example.sample_news_app.presentation.characters.model.NewCharacter
+import com.example.sample_news_app.domain.model.NewCharacter
 
 import javax.inject.Inject
 

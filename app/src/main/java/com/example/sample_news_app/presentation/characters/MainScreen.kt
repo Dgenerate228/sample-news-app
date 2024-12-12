@@ -28,17 +28,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sample_news_app.R
 import com.example.sample_news_app.presentation.characters.model.MainState
 import com.example.sample_news_app.ui.theme.SampleSPappTheme
-import com.example.sample_news_app.presentation.characters.model.NewCharacter as NewList
+import com.example.sample_news_app.presentation.characters.model.NewCharacter as NewCharacterModel
 
 @Composable
 internal fun MainScreen(
-    viewModel: MainViewModel = viewModel(),
-    openCharacterDetails: (id: String) -> Unit,
+    viewModel: MainViewModel = hiltViewModel(),
+    openCharacterDetails: (id: String) -> Unit
 ) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     ScreenContent(
@@ -89,7 +89,7 @@ private fun ScreenContent(
 
 @Composable
 private fun Normal(
-    spApi: List<NewList>,
+    spApi: List<NewCharacterModel>,
     openCharacterDetails: (id: String) -> Unit,
 ) = Column(
     modifier = Modifier
@@ -104,26 +104,6 @@ private fun Normal(
             onCharacterClick = openCharacterDetails
         )
     }
-}
-
-@Composable
-private fun Loading() = Box(
-    modifier = Modifier.fillMaxSize(),
-    contentAlignment = Alignment.Center,
-) {
-    CircularProgressIndicator()
-}
-
-@Composable
-private fun Error() = Box(
-    modifier = Modifier.fillMaxSize(),
-    contentAlignment = Alignment.Center,
-) {
-    Text(
-        text = stringResource(R.string.error),
-        style = MaterialTheme.typography.titleLarge,
-        color = MaterialTheme.colorScheme.error,
-    )
 }
 
 @Composable
@@ -159,13 +139,33 @@ private fun New(
     }
 )
 
+@Composable
+private fun Loading() = Box(
+    modifier = Modifier.fillMaxSize(),
+    contentAlignment = Alignment.Center,
+) {
+    CircularProgressIndicator()
+}
+
+@Composable
+private fun Error() = Box(
+    modifier = Modifier.fillMaxSize(),
+    contentAlignment = Alignment.Center,
+) {
+    Text(
+        text = stringResource(R.string.error),
+        style = MaterialTheme.typography.titleLarge,
+        color = MaterialTheme.colorScheme.error,
+    )
+}
+
 @Preview
 @Composable
 private fun PreviewMainScreenNormal() = SampleSPappTheme {
     ScreenContent(
         screenState = MainState.Normal(
             characters = listOf(
-                NewList(
+                NewCharacterModel(
                     id = "",
                     name = "Character name",
                     sex = "Character sex",
