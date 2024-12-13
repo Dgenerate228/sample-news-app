@@ -1,37 +1,44 @@
 package com.example.sample_news_app.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+
 import com.example.sample_news_app.presentation.character_details.CharacterDetailsScreen
-import com.example.sample_news_app.presentation.character_details.CharacterDetailsViewModel
 import com.example.sample_news_app.presentation.characters.MainScreen
 
-private const val CHARACTER_LIST_ROUTE = "CHARACTER_LIST"
-private const val CHARACTER_DETAILS_ROUTE = "CHARACTER_DETAILS"
-private const val CHARACTER_DETAILS_ID = "CHARACTER_ID"
+const val CHARACTER_DETAIL_ID_KEY = "id"
 
 @Composable
-fun SPNavGraph(navController: NavHostController = rememberNavController()) =
-    NavHost(navController = navController, startDestination = CHARACTER_LIST_ROUTE) {
-        composable(CHARACTER_LIST_ROUTE) {
-            MainScreen(
-                openCharacterDetails = { characterId ->
-                    navController.navigate("$CHARACTER_DETAILS_ROUTE/$characterId")
-                }
+internal fun SPNavGraph(
+    navController: NavHostController = rememberNavController(),
+    startDestination: String = MainScreen.Characters.route
+) = NavHost(
+    navController = navController,
+    startDestination = startDestination
+) {
+    composable(route = MainScreen.Characters.route) {
+        MainScreen(
+            openCharacterDetails = { id -> navController.navigate("${MainScreen.CharacterDetails.route}/$id") }
+        )
+    }
+    composable(
+        route = "${MainScreen.CharacterDetails.route}/{$CHARACTER_DETAIL_ID_KEY}",
+        arguments = listOf(
+            navArgument(CHARACTER_DETAIL_ID_KEY) {
+                type = NavType.StringType
+            },
+        ),
+    ) { navBackStackEntry ->
+        val id = navBackStackEntry.arguments?.getString(CHARACTER_DETAIL_ID_KEY)
+        id?.let {
+            CharacterDetailsScreen(
+                navigationBack = { navController.popBackStack() }
             )
         }
-        composable("$CHARACTER_DETAILS_ROUTE/{$CHARACTER_DETAILS_ID}") { backStackEntry ->
-            val characterId = backStackEntry.arguments?.getString(CHARACTER_DETAILS_ID)
-            if (characterId != null) {
-                val viewModel = viewModel<CharacterDetailsViewModel>()
-                viewModel.loadData(characterId)
-                CharacterDetailsScreen(
-                    viewModel = viewModel,
-                    navigationBack = { navController.popBackStack() })
-            }
-        }
     }
+}

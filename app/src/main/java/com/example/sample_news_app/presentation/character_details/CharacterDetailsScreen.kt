@@ -24,6 +24,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.sample_news_app.R
 import com.example.sample_news_app.presentation.character_details.model.CharacterDetailsState
@@ -32,7 +33,7 @@ import com.example.sample_news_app.ui.theme.SampleSPappTheme
 
 @Composable
 internal fun CharacterDetailsScreen(
-    viewModel: CharacterDetailsViewModel,
+    viewModel: CharacterDetailsViewModel = hiltViewModel(),
     navigationBack: () -> Unit,
 ) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
@@ -65,7 +66,7 @@ private fun ScreenContent(
                 Image(
                     modifier = Modifier.clickable { navigationBack() },
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = null,
+                    contentDescription = null
                 )
             }
         )
@@ -77,7 +78,7 @@ private fun ScreenContent(
                 .fillMaxSize()
         ) {
             when (screenState) {
-                is CharacterDetailsState.Normal -> Normal(screenState.character)
+                is CharacterDetailsState.Normal -> Normal(character = screenState.character)
                 CharacterDetailsState.Error -> Error()
                 CharacterDetailsState.Empty -> Unit
             }
@@ -86,33 +87,33 @@ private fun ScreenContent(
 )
 
 @Composable
-private fun Normal(new: CharacterDetails) = Column(
+private fun Normal(character: CharacterDetails) = Column(
     modifier = Modifier
         .fillMaxSize()
         .padding(horizontal = 16.dp, vertical = 8.dp)
 ) {
     Text(
-        text = stringResource(R.string.name_ru) + " " + new.name,
+        text = stringResource(R.string.name_ru) + " " + character.name,
         style = MaterialTheme.typography.titleMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = stringResource(R.string.sex_ru) + " " + new.sex,
+        text = stringResource(R.string.sex_ru) + " " + character.sex,
         style = MaterialTheme.typography.bodyLarge,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = stringResource(R.string.religion_ru) + " " + new.religion.toString(),
+        text = stringResource(R.string.religion_ru) + " " + character.religion.toString(),
         style = MaterialTheme.typography.bodyMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = stringResource(R.string.hair_color_ru) + " " + new.hairColor.toString(),
+        text = stringResource(R.string.hair_color_ru) + " " + character.hairColor.toString(),
         style = MaterialTheme.typography.bodyMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     Text(
-        text = stringResource(R.string.occupation_ru) + " " + new.occupation.toString(),
+        text = stringResource(R.string.occupation_ru) + " " + character.occupation.toString(),
         style = MaterialTheme.typography.bodyMedium,
     )
 }
@@ -120,12 +121,12 @@ private fun Normal(new: CharacterDetails) = Column(
 @Composable
 private fun Error() = Box(
     modifier = Modifier.fillMaxSize(),
-    contentAlignment = Alignment.Center,
+    contentAlignment = Alignment.Center
 ) {
     Text(
         text = stringResource(R.string.error),
         style = MaterialTheme.typography.titleLarge,
-        color = MaterialTheme.colorScheme.error,
+        color = MaterialTheme.colorScheme.error
     )
 }
 

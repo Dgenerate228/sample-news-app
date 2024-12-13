@@ -1,59 +1,38 @@
 package com.example.sample_news_app.presentation.character_details
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sample_news_app.data.SouthParkAPI
+import com.example.sample_news_app.domain.CharactersInteract
+import com.example.sample_news_app.navigation.CHARACTER_DETAIL_ID_KEY
 import com.example.sample_news_app.presentation.character_details.model.CharacterDetailsState
-import com.example.sample_news_app.presentation.character_details.model.CharacterDetails
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-private const val UNKNOWN_MESSAGE = "Unknown"
+@HiltViewModel
+class CharacterDetailsViewModel @Inject constructor(
+    private val interact: CharactersInteract,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-class CharacterDetailsViewModel : ViewModel() {
+    private val id: String? = savedStateHandle[CHARACTER_DETAIL_ID_KEY]
 
     private val _screenState = MutableStateFlow<CharacterDetailsState>(CharacterDetailsState.Empty)
-    val screenState: MutableStateFlow<CharacterDetailsState> get() = _screenState
+    val screenState = _screenState.asStateFlow()
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://spapi.dev/api/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val spAPI = retrofit.create(SouthParkAPI::class.java)
+    init {
+        loadData()
+    }
 
-    fun loadData(characterId: String) = viewModelScope.launch {
+    private fun loadData() = viewModelScope.launch {
         _screenState.emit(
-            when (val result = getSP(characterId)) {
+            when (val result = interact.getNewById(id)) {
                 null -> CharacterDetailsState.Error
                 else -> CharacterDetailsState.Normal(character = result)
             }
         )
     }
-
-    private suspend fun getSP(characterId: String): CharacterDetails? =
-        withContext(Dispatchers.IO) {
-            try {
-                val result = spAPI.getCharacter(characterId)
-                val body = result.body()
-                if (result.isSuccessful && body != null) {
-                    val character = body.data
-                    CharacterDetails(
-                        id = character.id.toString(),
-                        name = character.name,
-                        sex = character.sex,
-                        hairColor = character.hairColor ?: UNKNOWN_MESSAGE,
-                        occupation = character.occupation ?: UNKNOWN_MESSAGE,
-                        religion = character.religion ?: UNKNOWN_MESSAGE
-                    )
-                } else {
-                    null
-                }
-            } catch (e: Exception) {
-                null
-            }
         }
-}
